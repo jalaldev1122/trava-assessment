@@ -21,7 +21,6 @@ Before jumping to any solution right away, I’d consider taking a step back and
 Next, I’d go through the codebase to identify:
 
 - How is the information being passed and parsed?
-  - I already know it is being passed as query params but
 - Are there any side-effects for the information being passed in the URL?
   - For example, some information could be related to localStorage or sessionStorage or cookies.
 - Note down any constraints identified in the codebase that might be relevant to the problem at hand.
@@ -81,6 +80,7 @@ Note: To improve performance, we can store the URL and hash in a cache service l
 #### Advantages
 
 - The URL is very short and easy to share.
+- This approach provides simplicity and offers scalability.
 - Tracking for shared URLs can be implemented.
   - Tracking has a whole set of benefits. It can be used to view which types of filters are being used more often, that can help us create presets for filters later on.
 
@@ -111,3 +111,9 @@ Having more than 3 filters can cause the URL to be long and can be difficult to 
 ##### 4. Shared URL is not opened for more than 30 days.
 
 Assuming we set 30 days as the cleanup time for old URLs, if a URL has not been used for 30 days or more, we can remove it from the database as well as cache. We can consume `last_used` attribute against a short URL to determine how long has the URL has remained unused.
+
+## Step 4 - Writing Technical Specifications
+
+In this step, we will define the technical details of implementing the URL shortening solution. This includes architecture, database schema, API design, security measures, and scalability considerations.
+
+[Technical Specifications](technical-specifications.md)
