@@ -1,5 +1,7 @@
 # Trava Assessment Solution
 
+---
+
 ## Step 1 - Response to CEO
 
 Quick response to the CEO with these 3 points:
@@ -7,6 +9,8 @@ Quick response to the CEO with these 3 points:
 1. Gratitude for appreciation that CEO likes the feature and that it’s useful
 2. Acknowledgement of the problem and identify one issue resulting from this problem (the one mentioned by the CEO can be used or I can identify another if need be)
 3. I can already think of some solutions, I’ll research some options and get back with the one that’s best suited.
+
+---
 
 ## Step 2 - Analyze Problem & Identify Constraints
 
@@ -24,6 +28,8 @@ Next, I’d go through the codebase to identify:
 - Are there any side-effects for the information being passed in the URL?
   - For example, some information could be related to localStorage or sessionStorage or cookies.
 - Note down any constraints identified in the codebase that might be relevant to the problem at hand.
+
+---
 
 ## Step 3 - Research
 
@@ -47,6 +53,8 @@ Key Takeaways:
 - Uses backend storage for link shortening instead of encoding in the URL.
 - Provides click analytics to users.
 - Uses a fixed-length hash (g23xXbA), improving readability.
+
+---
 
 ## Step 4 - Possible Solution
 
@@ -112,17 +120,23 @@ Having more than 3 filters can cause the URL to be long and can be difficult to 
 
 Assuming we set 30 days as the cleanup time for old URLs, if a URL has not been used for 30 days or more, we can remove it from the database as well as cache. We can consume `last_used` attribute against a short URL to determine how long has the URL has remained unused.
 
+---
+
 ## Step 5 - Writing Technical Specifications
 
 In this step, we will define the technical details of implementing the URL shortening solution. This includes architecture, database schema, API design, security measures, and scalability considerations.
 
 [Technical Specifications](technical-specifications.md)
 
+---
+
 ## Step 6 - Planning, Prioritization & Scheduling
 
 Now that we have a technical specification, the next step is to plan, prioritize and schedule for the development process efficiently.
 
 [Planning, Prioritization & Scheduling](plan.md)
+
+---
 
 ## Step 7 - Ongoing Maintenance & Monitoring
 
@@ -269,4 +283,12 @@ Regular surveys and customer feedback sessions to assess if users are finding th
 
 Measure how often shared URLs lead to successful actions (e.g., sign-ups, purchases, or engagement with filters).
 
-## Step 8 -
+---
+
+## Step 8 - Automation Testing
+
+Automating testing is crucial to ensure that the URL shortening service remains reliable, works as expected, and can scale effectively.
+
+[Testing Plan](testing.md)
+
+---
