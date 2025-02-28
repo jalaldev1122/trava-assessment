@@ -49,30 +49,65 @@ Key Takeaways:
 - Provides click analytics to users.
 - Uses a fixed-length hash (g23xXbA), improving readability.
 
-## Step 4 - Possible Approaches to Solution
+## Step 4 - Possible Solution
 
-Since the table supports many filters, sorts, and search options, we need a way to encode this information efficiently. A few approaches can be used here:
+Since the table supports many filters, sorts, and search options, we need a way to encode this information efficiently. We can use the following approach:
 
-### Bitwise Encoding
+### Shorten URL Service on Backend
 
-Bitwise encoding is an advanced technique for reducing URL length by converting filter parameters into compact binary data. This is useful when URLs contain repetitive patterns, predictable structures, and a limited set of possible values.
+This approach works very similar to how most tools that shorten URL work. We have the similar expectation from our platform - creating an easy to share URL for chats/emails.
 
-#### How It works
+#### How It Works
 
-Instead of storing filters as plaintext key-value pairs,
+When user wants to share a URL,
 
-- Assign a binary representation to each filter type and operator.
-- Convert numerical values into efficient binary storage.
-- Use Base62 (or similar) encoding to convert binary data into a compact string.
+1. The URL is sent to a backend service through an endpoint. (e.g., `/shorten`)
+2. A short hash is created against the URL
+3. The original URL is stored in the database along with the short hash pointing to this URL.
+4. The hash is then used to construct a URL that is relatively much shorter.
+5. This short URL can be shared with other users.
+
+When another user receives and accesses the URL,
+
+1. The URL is sent to a backend service through an endpoint. (e.g., `/get-original-url`)
+2. Using the hash from URL, the original URL can be retrieved from database.
+3. We update the `last_used` attribute in db against the hash and original URL.
+   - This can be helpful in cleanup.
+4. The original URL can be sent back to the frontend.
+5. The frontend receives the original URL with all the original filters defined.
+
+Note: To improve performance, we can store the URL and hash in a cache service like Redis, etc.
 
 #### Advantages
 
-- Converts long URLs into very short base62 strings.
-- Encoding and decoding are efficient with bitwise operations.
-- Base62 avoids special characters making it URL-safe.
+- The URL is very short and easy to share.
+- Tracking for shared URLs can be implemented.
+  - Tracking has a whole set of benefits. It can be used to view which types of filters are being used more often, that can help us create presets for filters later on.
 
 #### Trade-Offs
 
-- The base62 string is not human readable and might not be understandable by the user.
-- Each new field requires a predefined bit assignment.
-- Adding new filters requires modifying the binary string.
+- Requires backend storage (in the form of database and cache).
+- Security measures must be taken to protect backend service from malicious content.
+- Requires cleanup in db to remove URLs no longer in use.
+
+#### Handling all Use Cases
+
+Note: For the following use cases,
+
+- `n` denotes `number of filters in a URL`
+
+##### 1. When sharing a URL with no filters (n=0)
+
+This case doesn't require much computation on the backend. We don't need to shorten this URL nor store it in db or cache.
+
+##### 2. When sharing a URL with less filters (n<3)
+
+Since we do not have any tracking requirements for the URL, we can also ignore shortening this URL and storing it in db or cache.
+
+##### 3. When sharing a URL with more filters (n>=3)
+
+Having more than 3 filters can cause the URL to be long and can be difficult to maintain. In this case, we can use this approach to create hash and then create a short URL to be shared with other users.
+
+##### 4. Shared URL is not opened for more than 30 days.
+
+Assuming we set 30 days as the cleanup time for old URLs, if a URL has not been used for 30 days or more, we can remove it from the database as well as cache. We can consume `last_used` attribute against a short URL to determine how long has the URL has remained unused.
