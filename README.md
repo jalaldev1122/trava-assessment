@@ -117,3 +117,9 @@ Assuming we set 30 days as the cleanup time for old URLs, if a URL has not been 
 In this step, we will define the technical details of implementing the URL shortening solution. This includes architecture, database schema, API design, security measures, and scalability considerations.
 
 [Technical Specifications](technical-specifications.md)
+
+## Step 5 - Planning, Prioritization & Scheduling
+
+Now that we have a technical specification, the next step is to plan, prioritize and schedule for the development process efficiently.
+
+[Planning, Prioritization & Scheduling](plan.md)
