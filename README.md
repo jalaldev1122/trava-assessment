@@ -292,3 +292,9 @@ Automating testing is crucial to ensure that the URL shortening service remains 
 [Testing Plan](testing.md)
 
 ---
+
+## Step 9 - Presenting CEO with Technical Specifications and relevant documents
+
+I can either schedule a meeting with the CEO to present the relevant documents or create Confluence page or a shareable document.
+
+---
